@@ -27,7 +27,7 @@ function getCurrentISOTimeString() {
     return d.toISOString().slice(0, -8);
 }
 
-export async function getRainingCity(): Promise<CityData | null> {
+export async function getRainingCity(): Promise<object | null> {
     const randomCities = arrayShuffle(cities as readonly CityData[]);
     const maxLength = Math.min(MAX_NUMBER_CITIES, randomCities.length);
 
@@ -50,7 +50,7 @@ export async function getRainingCity(): Promise<CityData | null> {
         const currentRain = rain[index];
 
         if (currentRain > 0) {
-            return randomCities[i];
+            return {rainMm: currentRain, ...randomCities[i]};
         }
 
         await setTimeout(delayMs);
