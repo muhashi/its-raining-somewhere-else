@@ -1,9 +1,9 @@
 import express from 'express';
-import {getRainingCity} from './generateRainingCity.js';
 import memoize from 'memoizee';
+import { getRainingCity } from './generateRainingCity.js';
 
 const app = express();
-const port = process.env.PORT ?? 300w0;
+const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 
 const memoizedGetRainingCity = memoize(getRainingCity, {promise: true, maxAge: 60 * 60 * 1000});
 
