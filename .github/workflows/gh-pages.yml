@@ -38,6 +38,9 @@ jobs:
       - name: Build with Vite
         working-directory: client
         run: npm run build
+      - name: Add CNAME
+        working-directory: client
+        run: echo "itsrainingsomewhereelse.com" > dist/CNAME
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
