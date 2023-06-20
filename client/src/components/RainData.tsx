@@ -9,6 +9,7 @@ type CityData = {
   rainMm: number,
 }
 
+// thanks aaron https://codepen.io/arickle/pen/XKjMZY
 export default function RainData() {
   const [rainData, setRainData] = useState<CityData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
