@@ -175,12 +175,42 @@ body.single-toggle .drop:nth-child(10) {
 	outline: inherit;
 }
 
-h1, h2, h3, p {
-  color: white;
+h1, h2, h3, p, span {
+  color: #fff;
   font-family: sans-serif;
 }
 
 p {
   font-size: 1.2rem;
   font-weight: bold;
+}
+
+/* thanks justin https://codepen.io/jstn/pen/mdoOZJ */
+a {
+  color: #fff;
+  /* text-transform: uppercase; */
+  text-decoration: none;
+  /* letter-spacing: 0.15em; */
+  
+  display: inline-block;
+  /* padding: 0.2em 0.5em; */
+  position: relative;
+}
+
+a:after {    
+  background: none repeat scroll 0 0 transparent;
+  bottom: 0;
+  content: "";
+  display: block;
+  height: 2px;
+  left: 50%;
+  position: absolute;
+  background: #fff;
+  transition: width 0.3s ease 0s, left 0.3s ease 0s;
+  width: 0;
+}
+
+a:hover:after { 
+  width: 100%; 
+  left: 0; 
 }
