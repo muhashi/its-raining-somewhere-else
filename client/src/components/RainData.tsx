@@ -43,7 +43,12 @@ export default function RainData() {
             width: '100%',
             gap: '1em',
           }}>
-            <ReactCountryFlag countryCode={rainData.country} svg style={{width: '2em', height: '2em'}} />
+            <ReactCountryFlag
+              countryCode={rainData.country}
+              svg
+              style={{width: '2em', height: '2em'}}
+              alt={`${rainData.country} flag`}
+            />
             <h2>{rainData.name}</h2><h3>{rainData.rainMm}mm</h3>
           </div>
         </div>
