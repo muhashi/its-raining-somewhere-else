@@ -34,7 +34,7 @@ export default function RainData() {
           width: '100%',
           gap: '1em',
         }}>
-          <h3>currently raining in</h3>
+          <p>currently raining in</p>
           <div style={{
             display: 'flex',
             flexDirection: 'row',
