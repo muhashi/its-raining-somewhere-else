@@ -29,6 +29,7 @@ export default function PlayMusicButton() {
         role="switch"
         aria-checked="false"
         className="remove-button-styles"
+        aria-label="Mute/Unmute Music"
         onClick={() => {
           if (audioContext?.state === "suspended") {
             audioContext.resume();
