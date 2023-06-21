@@ -14,7 +14,7 @@ A webapp that shows you where in the world it is currently raining
 3. Github Workflow automatically deploys it to your own Github Pages. Replace the line in the workflow `run: echo "itsrainingsomewhereelse.com" > dist/CNAME` with your own custom domain, or remove the line to default to your .github.io domain.
 4. Replace `VITE_PROD_API_URL` with your server's url.
 
-## Backend
+### Backend
 1. Express server source code is stored in the `/server` folder.
 2. Run `npm run dev` to start.
 3. Replace the `CLIENT_URL` in the `.env` file with your own website for CORS.
