@@ -11,7 +11,7 @@ app.use(cors({
   origin: process.env.NODE_ENV === "production" ? process.env.CLIENT_URL : "*",
 }));
 
-const memoizedGetRainingCity = memoize(getRainingCity, {promise: true, maxAge: 60 * 60 * 1000});
+const memoizedGetRainingCity = memoize(getRainingCity, {promise: true, maxAge: 60 * 60 * 1000, preFetch: 0.1});
 
 app.get('/', async (req, res) => {
   const countryData = await memoizedGetRainingCity();
