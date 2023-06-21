@@ -1,9 +1,10 @@
-import cities from 'cities.json' assert { type: "json" };
 import arrayShuffle from 'array-shuffle';
-import {setTimeout} from 'node:timers/promises';
+import cities from 'cities.json' assert { type: "json" };
 import got from 'got';
+import { setTimeout } from 'node:timers/promises';
 
 const MAX_NUMBER_CITIES = 400;
+const MIN_RAIN_MM = 0.5;
 const delayMs = 200;
 
 type CityData = {
@@ -12,6 +13,8 @@ type CityData = {
     name: string,
     country: string,
 }
+
+type CityReturnData = CityData & { rainMm: number };
 
 type RainData = {
     hourly: {
@@ -27,9 +30,10 @@ function getCurrentISOTimeString() {
     return d.toISOString().slice(0, -8);
 }
 
-export async function getRainingCity(): Promise<object | null> {
+export async function getRainingCity(): Promise<CityReturnData | null> {
     const randomCities = arrayShuffle(cities as readonly CityData[]);
     const maxLength = Math.min(MAX_NUMBER_CITIES, randomCities.length);
+    let currentMaxRainCity: CityReturnData | null = null;
 
     for (let i = 0; i < maxLength; i++) {
         const {lat, lng} = randomCities[i];
@@ -48,9 +52,12 @@ export async function getRainingCity(): Promise<object | null> {
         if (index === -1 || index >= rain.length) continue;
 
         const currentRain = rain[index];
+        const returnCityData = {rainMm: currentRain, ...randomCities[i]};
 
-        if (currentRain > 0) {
-            return {rainMm: currentRain, ...randomCities[i]};
+        if (currentRain >= MIN_RAIN_MM) {
+            return returnCityData;
+        } else if (!currentMaxRainCity || currentRain > currentMaxRainCity.rainMm) {
+            currentMaxRainCity = returnCityData;
         }
 
         await setTimeout(delayMs);
