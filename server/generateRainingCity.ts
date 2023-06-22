@@ -4,7 +4,7 @@ import got from 'got';
 import { setTimeout } from 'node:timers/promises';
 
 const MAX_NUMBER_CITIES = 400;
-const MIN_RAIN_MM = 0.5;
+const MIN_RAIN_MM = 2;
 const delayMs = 200;
 
 type CityData = {
@@ -63,5 +63,5 @@ export async function getRainingCity(): Promise<CityReturnData | null> {
         await setTimeout(delayMs);
     }
 
-    return null;
+    return currentMaxRainCity;
 }
