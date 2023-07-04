@@ -5,7 +5,7 @@ import { getRainingCity, CityReturnData } from './generateRainingCity.js';
 
 const app = express();
 const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
-const ONE_HOUR = 1000 * 10;
+const ONE_HOUR = 1000 * 60 * 60;
 
 let memoizedCountryData: CityReturnData | null = null;
 getRainingCity().then((data) => memoizedCountryData = data);
