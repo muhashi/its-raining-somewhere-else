@@ -14,7 +14,7 @@ type CityData = {
     country: string,
 }
 
-type CityReturnData = CityData & { rainMm: number };
+export type CityReturnData = CityData & { rainMm: number };
 
 type RainData = {
     hourly: {
