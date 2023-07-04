@@ -8,60 +8,60 @@ const MIN_RAIN_MM = 2;
 const delayMs = 200;
 
 type CityData = {
-    lat: string,
-    lng: string,
-    name: string,
-    country: string,
+  lat: string,
+  lng: string,
+  name: string,
+  country: string,
 }
 
 export type CityReturnData = CityData & { rainMm: number };
 
 type RainData = {
-    hourly: {
-        time: string[],
-        rain: number[],
-    },
+  hourly: {
+    time: string[],
+    rain: number[],
+  },
 }
 
 // rounded down to nearest hour, slices of seconds and ms
 function getCurrentISOTimeString() {
-    const d = new Date();
-    d.setMinutes(0, 0);
-    return d.toISOString().slice(0, -8);
+  const d = new Date();
+  d.setMinutes(0, 0);
+  return d.toISOString().slice(0, -8);
 }
 
 export async function getRainingCity(): Promise<CityReturnData | null> {
-    const randomCities = arrayShuffle(cities as readonly CityData[]);
-    const maxLength = Math.min(MAX_NUMBER_CITIES, randomCities.length);
-    let currentMaxRainCity: CityReturnData | null = null;
+  const randomCities = arrayShuffle(cities as readonly CityData[]);
+  const maxLength = Math.min(MAX_NUMBER_CITIES, randomCities.length);
+  let currentMaxRainCity: CityReturnData | null = null;
 
-    for (let i = 0; i < maxLength; i++) {
-        const {lat, lng} = randomCities[i];
+  for (let i = 0; i < maxLength; i++) {
+    const { lat, lng } = randomCities[i];
 
-        if (!lat || !lng) continue;
-        
-        const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&hourly=rain`;
+    if (!lat || !lng) continue;
 
-        const res: RainData = await got(url).json();
-        if (!res || !res?.hourly || !res?.hourly?.rain) continue;
-        const currentTime = getCurrentISOTimeString();
-        const {time, rain} = res.hourly;
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&hourly=rain`;
 
-        const index = time.findIndex((timeString) => timeString === currentTime);
+    const res: RainData = await got(url).json();
+    if (!res || !res?.hourly || !res?.hourly?.rain) continue;
+    const currentTime = getCurrentISOTimeString();
+    const { time, rain } = res.hourly;
 
-        if (index === -1 || index >= rain.length) continue;
+    const index = time.findIndex((timeString) => timeString === currentTime);
 
-        const currentRain = rain[index];
-        const returnCityData = {rainMm: currentRain, ...randomCities[i]};
+    if (index === -1 || index >= rain.length) continue;
 
-        if (currentRain >= MIN_RAIN_MM) {
-            return returnCityData;
-        } else if (!currentMaxRainCity || currentRain > currentMaxRainCity.rainMm) {
-            currentMaxRainCity = returnCityData;
-        }
+    const currentRain = rain[index];
+    const returnCityData = { rainMm: currentRain, ...randomCities[i] };
 
-        await setTimeout(delayMs);
+    if (currentRain >= MIN_RAIN_MM) {
+      return returnCityData;
+    } else if (!currentMaxRainCity || currentRain > currentMaxRainCity.rainMm) {
+      currentMaxRainCity = returnCityData;
     }
 
-    return currentMaxRainCity;
+    await setTimeout(delayMs);
+  }
+
+  return currentMaxRainCity;
 }
