@@ -9,7 +9,7 @@ const ONE_HOUR = 1000 * 60 * 60;
 
 let memoizedCountryData: CityReturnData | null = null;
 getRainingCity().then((data) => memoizedCountryData = data);
-
+    
 
 app.use(cors({
   origin: process.env.NODE_ENV === "production" ? process.env.CLIENT_URL : "*",
